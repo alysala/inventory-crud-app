@@ -1,10 +1,11 @@
 import './App.css';
-
+import boxes from './images/stacked-boxes.png';
+ 
 function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <a href='https://pngtree.com/so/stack'>stack png from pngtree.com/</a>
+      <img src={boxes} alt="stack of packing boxes" />
       </header>
     </div>
   );
