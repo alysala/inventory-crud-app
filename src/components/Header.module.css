@@ -1,0 +1,24 @@
+.baseHeader {
+    width: 100%;
+    position: relative;
+    background-color: #058eb4;
+    height: 2.5rem;
+}
+
+.text {
+    color: #FFFDFA;
+    font-weight: bold;
+    position: absolute;
+    padding: 0.5rem;
+    padding-left: 2rem;
+}
+
+.textRight {
+    color: #FFFDFA;
+    font-weight: bold;
+    position: absolute;
+    right: 0;
+    padding: 0.5rem;
+    padding-right: 2rem;
+}
+ 
