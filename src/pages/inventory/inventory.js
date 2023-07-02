@@ -1,5 +1,6 @@
 import React from 'react';
 import MaterialTable from 'material-table';
+import { ThemeProvider, createTheme } from '@mui/material';
 
 const data = [
   { name: 'Test Item', quantity: 1, description: 'test decp' },
@@ -12,14 +13,13 @@ const columns = [
   { title: 'Description', field: 'decription' },
 ];
 
-export const BasicTable = () => {
-  return <MaterialTable title='Basic Table' columns={columns} data={data} />;
-};
-
 const Inventory = () => {
+  const defaultMaterialTheme = createTheme()
   return (
     <div>
-      {BasicTable}
+      <ThemeProvider theme={defaultMaterialTheme}>
+      	<MaterialTable title='Basic Table' columns={columns} data={data} />
+      </ThemeProvider>
     </div>
   );
 };
