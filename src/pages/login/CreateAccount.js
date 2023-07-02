@@ -19,7 +19,7 @@ const CreateAccount = () => {
             <input type='password' name='pass' required />
           </div>
           <div>
-            <input type='submit' />
+            <input className={styles.button} type='submit' />
           </div>
         </form>
       </div>

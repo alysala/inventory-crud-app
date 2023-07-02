@@ -18,7 +18,7 @@ const Login = () => {
          <input type='password' name='pass' required />
        </div>
        <div>
-         <input type='submit' />
+         <input className={styles.button} type='submit' />
        </div>
      </form>
      <p className={styles.buttonText} onClick={() => {navigate('/create-account', { replace: true })}}>Don't have an account? Create one here.</p>
