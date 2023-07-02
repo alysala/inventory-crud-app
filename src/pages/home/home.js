@@ -9,7 +9,7 @@ const Home = () => {
 	return (
         <div className={styles.baseHome}>
             <div className={styles.leftSide}>
-                <p className={styles.titleText}>GOT INVENTORY?</p>
+                <h1 className={styles.titleText}>GOT INVENTORY?</h1>
                 <button className={styles.browseButton} onClick={() => {navigate('/inventory', { replace: true })}}>Browse our public catalogue</button> 
             </div>
             <div className={styles.rightSide}>
