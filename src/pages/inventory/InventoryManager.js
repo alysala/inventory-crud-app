@@ -2,6 +2,7 @@ import React from 'react';
 import MaterialTable, { MTableAction, MTableBodyRow } from 'material-table';
 import { ThemeProvider, createTheme } from '@mui/material';
 import styles from './Inventory.module.css';
+import axios from 'axios';
 
 const InventoryManager = ({user, setUser, tableIcons, data, setData, columns}) => {
   const tableRef = React.createRef();
@@ -25,12 +26,8 @@ const InventoryManager = ({user, setUser, tableIcons, data, setData, columns}) =
 		  }}
 		components={{
 			Action: props => {
-				  //If isn't the add action
-				  if (typeof props.action === typeof Function || props.action.tooltip !== 'Add') {
-						return <MTableAction {...props} />
-				  } else {
-						return <div ref={addActionRef} onClick={props.action.onClick}/>;
-				  }
+				  if (typeof props.action === typeof Function || props.action.tooltip !== 'Add') return <MTableAction {...props} />
+				  else return <div ref={addActionRef} onClick={props.action.onClick}/>;
 				},
 				Row: props => (
 					<MTableBodyRow
@@ -45,7 +42,21 @@ const InventoryManager = ({user, setUser, tableIcons, data, setData, columns}) =
 			}}
 			editable={{
 				onRowAdd: (newData) =>
-				  Promise.resolve(setData([...data, newData])),
+				new Promise((resolve, reject) => {
+					newData['user'] = user;
+					console.log(newData);
+					axios.post(
+						'http://127.0.0.1:5000/add-inventory',
+						newData,
+						{withCredentials: true}
+					).then((response) => {
+						setData(JSON.parse(response.data.inventory));
+					}).catch((err) => {
+					  alert(err.response.data.message);
+					  console.log(err);
+					});
+					resolve();
+				  }),
 				onRowUpdate: (newData, oldData) =>
 				  new Promise((resolve, reject) => {
 					console.log('update');

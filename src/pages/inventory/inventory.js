@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState, forwardRef, useEffect } from 'react';
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
@@ -16,6 +16,7 @@ import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import InventoryPublic from './InventoryPublic';
 import InventoryManager from './InventoryManager';
+import axios from 'axios';
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -38,19 +39,31 @@ const tableIcons = {
   };
 
 const Inventory = ({user, setUser}) => {
-	const [data, setData] = useState(() => [
-		{ name: 'Test Item', quantity: 1, description: 'test decp' },
-		{ name: 'Test Item 2', quantity: 1, description: 'test decp' },
-	  ]);
+	const [data, setData] = useState(() => []);
+
+	useEffect(() => {
+		axios.get(
+			'http://127.0.0.1:5000/get-inventory',
+			{withCredentials: true}
+		).then((response) => {
+			setData(JSON.parse(response.data.inventory));
+		}).catch((err) => {
+		  alert(err.response.data.message);
+		  console.log(err);
+		});
+	  }, []);
+
 	const columns = [
 		{ title: 'Item Name', field: 'name', width: '30%' },
 		{ title: 'Quantity', field: 'quantity', type: 'numeric', width: '30%' },
 		{ title: 'Description', field: 'description', width: '30%' },
 	  ];
+
 	const table = () => {
 		if (user.length > 0) return <InventoryManager user={user} setUser={setUser} tableIcons={tableIcons} columns={columns} data={data} setData={setData}/>;
 		else return <InventoryPublic tableIcons={tableIcons} columns={columns} data={data}/>;
 	}
+
 	return (
 		<div>
 			{table()}

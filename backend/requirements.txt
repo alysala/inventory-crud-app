@@ -1,7 +1,7 @@
+bson
 flask
 flask_cors
 flask_login
-flask_pymongo
 flask_pymongo
 bcrypt
 uuid
