@@ -15,5 +15,5 @@ This application was made with a react frontend, python backend, and Mongo DB da
 
 # Frontend
 - Run `npm install` to install all Node.js dependencies for the React frontend.
--- For a complete list of dependencies, refer to the package.json file in the project root directory.
+-- For a complete list of dependencies, refer to the package.json file in the project root directory
 - Run `npm start` to run the frontend
