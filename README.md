@@ -22,4 +22,5 @@ This application was made with a react frontend, python backend, and Mongo DB da
 - Run `npm start` to run the frontend
 
 # Demo Video
-Assignment Walkthrough with Rubric [https://youtu.be/7Joiu2jhoUU]
+Assignment Walkthrough with Rubric 
+https://youtu.be/7Joiu2jhoUU
