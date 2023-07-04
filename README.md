@@ -1,5 +1,5 @@
 # Welcome to my Inventory CRUD Application for Supra Coders Z-Prefix Admissions Summer 2023
-This application was made with a react frontend, python backend, and Mongo DB database.
+This application was made with a react frontend, python backend, and Mongo DB.
 
 # Backend
 - Change directories into the backend folder by running `cd backend`.
