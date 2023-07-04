@@ -1,8 +1,4 @@
 import React, { useState, forwardRef } from 'react';
-import MaterialTable, { MTableAction, MTableBodyRow } from 'material-table';
-import { useNavigate } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material';
-import styles from './Inventory.module.css';
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
@@ -18,6 +14,8 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import InventoryPublic from './InventoryPublic';
+import InventoryManager from './InventoryManager';
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -39,80 +37,25 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
 
-const Inventory = () => {
-  const tableRef = React.createRef();
-  const addActionRef = React.useRef();
-  const navigate = useNavigate();
-  const defaultMaterialTheme = createTheme();
-  const [data, setData] = useState(() => [
-	{ name: 'Test Item', quantity: 1, description: 'test decp' },
-	{ name: 'Test Item 2', quantity: 1, description: 'test decp' },
-  ]);
-
-  const columns = [
-	{ title: 'Item Name', field: 'name', width: '30%' },
-	{ title: 'Quantity', field: 'quantity', type: 'numeric', width: '30%' },
-	{ title: 'Description', field: 'description', width: '30%' },
-  ];
-
-  return (
-    <div>
-      <ThemeProvider theme={defaultMaterialTheme}>
-	  		<div className={styles.subBanner}>
-				<p className={styles.textRight} onClick={() => {navigate('/login', { replace: true })}}>Want to add items to the listing? Create an account or log in.</p>
-				<p className={styles.text} onClick={() => addActionRef.current.click()}>Add new item +</p>
-			</div>
-      	<MaterialTable
-        tableRef={tableRef}
-        columns={columns}
-        data={data}
-		icons={tableIcons}
-        title='Inventory'
-		options={{
-			tableLayout: 'auto'
-		  }}
-		components={{
-			Action: props => {
-				  //If isn't the add action
-				  if (typeof props.action === typeof Function || props.action.tooltip !== 'Add') {
-						return <MTableAction {...props} />
-				  } else {
-						return <div ref={addActionRef} onClick={props.action.onClick}/>;
-				  }
-				},
-				Row: props => (
-					<MTableBodyRow
-					  {...props}
-					  onDoubleClick={e => {
-						console.log(props.actions);
-						props.actions[1]().onClick(e);
-						alert("Make row editable");
-					  }}
-					/>
-				  )
-			}}
-			editable={{
-				onRowAdd: (newData) =>
-				  Promise.resolve(setData([...data, newData])),
-				onRowUpdate: (newData, oldData) =>
-				  new Promise((resolve, reject) => {
-					console.log('update');
-					console.log(newData);
-					console.log(oldData);
-					resolve();
-				  }),
-				onRowDelete: oldData =>
-				  new Promise((resolve, reject) => {
-					console.log('delete');
-					console.log(oldData);
-					resolve();
-				  })
-			  }}
-			
-    />
-      </ThemeProvider>
-    </div>
-  );
+const Inventory = ({user, setUser}) => {
+	const [data, setData] = useState(() => [
+		{ name: 'Test Item', quantity: 1, description: 'test decp' },
+		{ name: 'Test Item 2', quantity: 1, description: 'test decp' },
+	  ]);
+	const columns = [
+		{ title: 'Item Name', field: 'name', width: '30%' },
+		{ title: 'Quantity', field: 'quantity', type: 'numeric', width: '30%' },
+		{ title: 'Description', field: 'description', width: '30%' },
+	  ];
+	const table = () => {
+		if (user.length > 0) return <InventoryManager user={user} setUser={setUser} tableIcons={tableIcons} columns={columns} data={data} setData={setData}/>;
+		else return <InventoryPublic tableIcons={tableIcons} columns={columns} data={data}/>;
+	}
+	return (
+		<div>
+			{table()}
+		</div>
+	)
 };
 
 export default Inventory;
