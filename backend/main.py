@@ -80,6 +80,45 @@ def get_inventory():
     return response
 
 
+@app.route('/update-inventory', methods=['POST'])
+def update_inventory():
+    """
+    Route: update inventory records in the system
+    methods: POST
+    endpoint: /update-inventory
+
+    @jsonparam user
+    @jsonparam name
+    @jsonparam oldName
+    @jsonparam decription
+    @jsonparam quantity
+
+    @return result
+    """
+    req_data = request.get_json()
+    username = req_data['user']
+    name = req_data['name']
+    old_name = req_data['oldName']
+    description = req_data['description']
+    quantity = req_data['quantity']
+
+    item_db = mongo.db['items']
+
+    item_db.find_one_and_delete({'name': old_name})
+    new_item = {
+    'id': str(uuid.uuid4()),
+    'name': name,
+    'description': description,
+    'quantity': quantity,
+    'userId': username
+    }
+    item_db.insert_one(new_item)
+
+    new_inventory = list(item_db.find({'name': {'$exists': True}}))
+    response = jsonify({'item-update': 'success', 'inventory': dumps(new_inventory)})
+    return response
+
+
 @app.route('/add-inventory', methods=['POST'])
 def add_inventory():
     """
@@ -118,11 +157,11 @@ def add_inventory():
     return response
 
 
-@app.route('/delete-inventory', methods=['DELETE'])
+@app.route('/delete-inventory', methods=['POST'])
 def remove_inventory():
     """
     Route: remove inventory records from the system
-    methods: DELETE
+    methods: POST
     endpoint: /remove-inventory
 
     @jsonparam name
@@ -132,13 +171,12 @@ def remove_inventory():
     req_data = request.get_json()
     name = req_data['name']
     item_db = mongo.db['items']
-
     if item_db.find_one({'name': name}) is None:
         return {'item-deletion': 'failed', 'message': 'An item with this name does not exist.'}, 400
     
     item_db.find_one_and_delete({'name': name})
-
-    response = jsonify({'item-deletion': 'success'})
+    new_inventory = list(item_db.find({'name': {'$exists': True}}))
+    response = jsonify({'item-deletion': 'success', 'inventory': dumps(new_inventory)})
     return response
 
 

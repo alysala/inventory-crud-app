@@ -22,16 +22,13 @@ const CreateAccount = ({user, setUser}) => {
       newAccount,
       {withCredentials: true}
   ).then((response) => {
-      console.log(response);
       alert(`logged in as ${response.data.current_user}`);
       setUser(response.data.current_user);
-      console.log(user);
       navigate('/inventory', { replace: true });
   }).catch((err) => {
     alert(err.response.data.message);
     console.log(err);
   });
-    console.log(newAccount);
   };
 
   const handleFnameChange = (e) => setFname(e.target.value);

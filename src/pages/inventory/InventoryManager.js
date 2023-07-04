@@ -44,7 +44,6 @@ const InventoryManager = ({user, setUser, tableIcons, data, setData, columns}) =
 				onRowAdd: (newData) =>
 				new Promise((resolve, reject) => {
 					newData['user'] = user;
-					console.log(newData);
 					axios.post(
 						'http://127.0.0.1:5000/add-inventory',
 						newData,
@@ -59,19 +58,35 @@ const InventoryManager = ({user, setUser, tableIcons, data, setData, columns}) =
 				  }),
 				onRowUpdate: (newData, oldData) =>
 				  new Promise((resolve, reject) => {
-					console.log('update');
-					console.log(newData);
-					console.log(oldData);
+					newData['user'] = user;
+					newData['oldName'] = oldData['name'];
+					axios.post(
+						'http://127.0.0.1:5000/update-inventory',
+						newData,
+						{withCredentials: true}
+					).then((response) => {
+						setData(JSON.parse(response.data.inventory));
+					}).catch((err) => {
+					  alert(err.response.data.message);
+					  console.log(err);
+					});
 					resolve();
 				  }),
 				onRowDelete: oldData =>
 				  new Promise((resolve, reject) => {
-					console.log('delete');
-					console.log(oldData);
+					axios.post(
+						'http://127.0.0.1:5000/delete-inventory',
+						{ 'name': oldData['name'] },
+						{withCredentials: true}
+					).then((response) => {
+						setData(JSON.parse(response.data.inventory));
+					}).catch((err) => {
+					  alert(err.response.data.message);
+					  console.log(err);
+					});
 					resolve();
 				  })
 			  }}
-			
     />
       </ThemeProvider>
     </div>

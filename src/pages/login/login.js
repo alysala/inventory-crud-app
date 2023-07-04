@@ -20,16 +20,13 @@ const Login = ({user, setUser}) => {
         account,
         {withCredentials: true}
     ).then((response) => {
-        console.log(response);
         alert(`logged in as ${response.data.current_user}`);
         setUser(response.data.current_user);
-        console.log(user);
         navigate('/inventory', { replace: true });
     }).catch((err) => {
       alert(err.response.data.message);
       console.log(err);
     });
-      console.log(account);
   };
 
 	return (
