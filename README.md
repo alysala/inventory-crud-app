@@ -7,7 +7,10 @@ This application was made with a react frontend, python backend, and Mongo DB da
 - Activate the venv virtual environment.
    - On MacOS and Linux systems, run `source venv/bin/activate`
    - On Windows Command Prompt, run venv\Scripts\activate.bat
-- Run `pip install -r requirements.txt` to install all Python dependencies. 
+- Run `pip install -r requirements.txt` to install all Python dependencies. Due to a bug in the way the `bson` and `flask_pymongo` libraries are written, you may get `bson` import errors. If this happens you will need to uninstall and reinstall in the following order.
+    - pip uninstall bson
+    - pip uninstall flask_pymongo
+    - pip install flask_pymongo
 - Ensure MongoDB Community Edition is active.
     - Windows: Run MongoDB Community Edition as a Windows Service
     - MacOS: Run MongoDB Community Edition
