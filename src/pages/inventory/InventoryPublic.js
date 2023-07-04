@@ -9,12 +9,12 @@ const InventoryPublic = ({tableIcons, data, columns}) => {
   const navigate = useNavigate();
   const defaultMaterialTheme = createTheme();
 
-  // if(data){
-  //   data.map(item => {
-  //     if(item['description'].length > 100) return item['description'] = item['description'].slice(0,100) + '...';
-  //     else return item['description'] = item['description'].slice(0,100);
-  //     });
-  // }
+  if(data){
+    data.map(item => {
+      if(item['description'].length > 100) return item['description'] = item['description'].slice(0,100) + '...';
+      else return item['description'] = item['description'].slice(0,100);
+      });
+  }
 
   return (
     <div>
