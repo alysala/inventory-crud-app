@@ -1,0 +1,25 @@
+.subBanner {
+    width: 100%;
+    position: relative;
+    background-color: #1A1919;
+    height: 2.5rem;
+}
+
+.text {
+    font-weight: bold;
+    position: absolute;
+    padding: 0.5rem;
+    padding-left: 2rem;
+    cursor:pointer;
+    color: #FFFDFA;
+}
+
+.textRight {
+    font-weight: bold;
+    position: absolute;
+    right: 0;
+    padding: 0.5rem;
+    padding-right: 2rem;
+    cursor:pointer;
+    color: #FFFDFA;
+}

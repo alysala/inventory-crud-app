@@ -10,7 +10,7 @@ const Home = () => {
         <div className={styles.baseHome}>
             <div className={styles.leftSide}>
                 <h1 className={styles.titleText}>GOT INVENTORY?</h1>
-                <button className={styles.browseButton} onClick={() => {navigate('/inventory', { replace: true })}}>Browse our public catalogue</button> 
+                <button className={styles.browseButton} onClick={() => {navigate('/inventory', { replace: true })}}>Browse our public listings</button> 
             </div>
             <div className={styles.rightSide}>
             <img id='boxes' src={boxes} alt='stacked boxes'/>
