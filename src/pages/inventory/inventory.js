@@ -1,5 +1,5 @@
 import React, { useState, forwardRef } from 'react';
-import MaterialTable, { MTableAction } from 'material-table';
+import MaterialTable, { MTableAction, MTableBodyRow } from 'material-table';
 import { useNavigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material';
 import styles from './Inventory.module.css';
@@ -44,7 +44,7 @@ const Inventory = () => {
   const addActionRef = React.useRef();
   const navigate = useNavigate();
   const defaultMaterialTheme = createTheme();
-  const [data, setData] = useState([
+  const [data, setData] = useState(() => [
 	{ name: 'Test Item', quantity: 1, description: 'test decp' },
 	{ name: 'Test Item 2', quantity: 1, description: 'test decp' },
   ]);
@@ -52,7 +52,7 @@ const Inventory = () => {
   const columns = [
 	{ title: 'Item Name', field: 'name', width: '30%' },
 	{ title: 'Quantity', field: 'quantity', type: 'numeric', width: '30%' },
-	{ title: 'Description', field: 'decription', width: '30%' },
+	{ title: 'Description', field: 'description', width: '30%' },
   ];
 
   return (
@@ -79,11 +79,34 @@ const Inventory = () => {
 				  } else {
 						return <div ref={addActionRef} onClick={props.action.onClick}/>;
 				  }
-				}
+				},
+				Row: props => (
+					<MTableBodyRow
+					  {...props}
+					  onDoubleClick={e => {
+						console.log(props.actions);
+						props.actions[1]().onClick(e);
+						alert("Make row editable");
+					  }}
+					/>
+				  )
 			}}
 			editable={{
 				onRowAdd: (newData) =>
-				  Promise.resolve(setData([...data, newData]))
+				  Promise.resolve(setData([...data, newData])),
+				onRowUpdate: (newData, oldData) =>
+				  new Promise((resolve, reject) => {
+					console.log('update');
+					console.log(newData);
+					console.log(oldData);
+					resolve();
+				  }),
+				onRowDelete: oldData =>
+				  new Promise((resolve, reject) => {
+					console.log('delete');
+					console.log(oldData);
+					resolve();
+				  })
 			  }}
 			
     />
